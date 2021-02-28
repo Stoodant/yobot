@@ -3,6 +3,11 @@
 <head>
   <title>出刀记录</title>
   <meta name='viewport' content='width=1485' charset="utf-8" />
+  <script>
+    var bossA = [0,250,265,172,242,235];//单位为万，分别为1-5王，ABC为一二三阶段
+    var bossB = [0,225,250,167,200,205];
+    var bossC = [0,148,205,160,175,155];
+  </script>
   <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.0/index.js"></script>
@@ -41,6 +46,7 @@
       <el-menu-item index="5">我的</el-menu-item>
     </el-menu>
     <h1 style="text-align:center">出刀记录</h1>
+    <p>当前权重版本-20210117-by特斯，尾刀/剩余刀分数*1.05</p>
     <el-date-picker v-model="reportDate" type="date" placeholder="选择日期" @change="report_day"></el-date-picker>
     <el-button type="primary" @click="selectUnfinished">选中未完成</el-button>
     <el-button type="warning" @click="sendRemindVisible = true">提醒出刀</el-button>
@@ -86,7 +92,7 @@
           没有尾刀
         </template>
       </el-dialog>
-      <el-table :data="progressData" :span-method="arraySpanMethod" style="width: 1485" ref="multipleTable"
+      <el-table :data="progressData" :span-method="arraySpanMethod" style="width: 1575" ref="multipleTable"
         @selection-change="handleSelectionChange" stripe>
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="qqid" label="QQ号" width="120" sortable></el-table-column>
@@ -133,6 +139,11 @@
               <el-popover placement="top" effect="light" trigger="hover">[[ cdetail(scope.row.detail[5]) ]]<i class="el-icon-info" slot="reference"></i></el-popover>
             </template>
           </el-table-column>
+        </el-table-column>
+        <el-table-column label="得分" width="90">
+          <template slot-scope="scope">
+            [[ cscore(scope.row.detail) ]]
+          </template>
         </el-table-column>
         <el-table-column prop="sl" label="SL" width="55" sortable>
           <template slot-scope="scope">

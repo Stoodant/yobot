@@ -62,6 +62,47 @@ var vm = new Vue({
             }
             return `(${cha.cycle}-${cha.boss_num}) <a class="digit${cha.damage.toString().length}">${cha.damage}</a>`;
         },
+        cscore: function (cha) {
+            if (cha == undefined) {
+                return '';
+            }
+            var detailstr = 0;
+            for(var i = 0; i < 6 ; i++){
+                if (cha[i] == undefined) {
+                    continue;
+                }
+                if(cha[i].cycle < 4){//A
+                    detailstr = detailstr + (cha[i].damage*100)/bossA[cha[i].boss_num];
+                    if( i % 2 == 1){
+                        detailstr = detailstr - (cha[i].damage*100)/bossA[cha[i].boss_num];
+                        detailstr = detailstr - (cha[i].damage*100)/bossA[cha[i-1].boss_num];
+                        detailstr = detailstr + ((cha[i].damage*100)/bossA[cha[i].boss_num])*1.05;
+                        detailstr = detailstr + ((cha[i].damage*100)/bossA[cha[i].boss_num])*1.05;
+                    }
+                }else if(cha[i].cycle < 11){//B
+                    detailstr = detailstr + (cha[i].damage*100)/bossB[cha[i].boss_num];
+                    if( i % 2 == 1){
+                        detailstr = detailstr - (cha[i].damage*100)/bossB[cha[i].boss_num];
+                        detailstr = detailstr - (cha[i].damage*100)/bossB[cha[i-1].boss_num];
+                        detailstr = detailstr + ((cha[i].damage*100)/bossB[cha[i].boss_num])*1.05;
+                        detailstr = detailstr + ((cha[i].damage*100)/bossB[cha[i].boss_num])*1.05;
+                    }
+                }else{//C
+                    detailstr = detailstr + (cha[i].damage*100)/bossC[cha[i].boss_num];
+                    if( i % 2 == 1){
+                        detailstr = detailstr - (cha[i].damage*100)/bossC[cha[i].boss_num];
+                        detailstr = detailstr - (cha[i].damage*100)/bossC[cha[i-1].boss_num];
+                        detailstr = detailstr + ((cha[i].damage*100)/bossC[cha[i].boss_num])*1.05;
+                        detailstr = detailstr + ((cha[i].damage*100)/bossC[cha[i].boss_num])*1.05;
+                    }
+                }
+            }
+            detailstr = parseInt(detailstr)
+            if(detailstr == 0){
+                return ``;
+            }
+            return `${detailstr}`;
+        },
         cdetail: function (cha) {
             if (cha == undefined) {
                 return '';
